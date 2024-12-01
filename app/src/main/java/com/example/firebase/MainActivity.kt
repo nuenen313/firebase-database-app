@@ -76,7 +76,7 @@ fun FirebaseUI(context: Context, databaseReference: DatabaseReference){
         modifier = Modifier
             .fillMaxHeight()
             .fillMaxWidth()
-            .background(Color.White),
+            .background(MaterialTheme.colorScheme.background),
 
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -84,7 +84,7 @@ fun FirebaseUI(context: Context, databaseReference: DatabaseReference){
         Text(
             text = "Firebase",
             modifier = Modifier.padding(15.dp),
-            style = TextStyle(color = Color.Black, fontSize = 25.sp),
+            style = TextStyle(color = MaterialTheme.colorScheme.onBackground, fontSize = 25.sp),
             fontWeight = FontWeight.Bold
         )
 
@@ -93,7 +93,7 @@ fun FirebaseUI(context: Context, databaseReference: DatabaseReference){
             modifier = Modifier
                 .padding(15.dp)
                 .fillMaxWidth(),
-            textStyle = TextStyle(color = Color.Black, fontSize = 15.sp),
+            textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground, fontSize = 15.sp),
             singleLine = true
         )
 
@@ -104,7 +104,7 @@ fun FirebaseUI(context: Context, databaseReference: DatabaseReference){
             modifier = Modifier
                 .padding(15.dp)
                 .fillMaxWidth(),
-            textStyle = TextStyle(color = Color.Black, fontSize = 15.sp),
+            textStyle = TextStyle(color = MaterialTheme.colorScheme.onBackground, fontSize = 15.sp),
             singleLine = true
         )
 
