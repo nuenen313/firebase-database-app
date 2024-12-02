@@ -76,7 +76,9 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
     // ViewModel utilities for Compose
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
-
     // Navigation
     implementation("androidx.navigation:navigation-compose:2.6.0-beta01")
+    // Authorization
+    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.android.gms:play-services-auth:20.6.0")
 }
