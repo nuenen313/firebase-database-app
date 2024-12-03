@@ -37,6 +37,62 @@ import com.google.firebase.auth.GoogleAuthProvider
 fun LoginScreen(navController: NavHostController) {
     val context = LocalContext.current
     val auth = FirebaseAuth.getInstance()
+    val currentUser = auth.currentUser
+    val googleSignInClient = createGoogleSignInClient(context)
+    if (currentUser != null) {
+        LoggedInScreen(currentUser.displayName ?: "User",
+            navController, auth, googleSignInClient)
+    } else {
+        RegularLoginScreen(navController, context, auth)
+    }
+}
+
+@Composable
+fun LoggedInScreen(userName: String, navController: NavHostController,
+                   auth: FirebaseAuth, googleSignInClient: GoogleSignInClient) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = "Logged in as $userName",
+            style = TextStyle(
+                color = MaterialTheme.colorScheme.onBackground,
+                fontSize = 28.sp,
+                fontWeight = FontWeight.Bold
+            )
+        )
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Button(
+            onClick = { navController.navigate("firebase/$userName") },
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Text("Continue")
+        }
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        Button(
+            onClick = {
+                auth.signOut()
+                googleSignInClient.signOut().addOnCompleteListener {
+                    Log.d("LoginScreen", "User logged out from Google")
+                }
+                navController.navigate("login")
+            },
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Text("Log out")
+        }
+    }
+}
+
+@Composable
+fun RegularLoginScreen(navController: NavHostController, context: Context, auth: FirebaseAuth) {
     val googleSignInClient = createGoogleSignInClient(context)
 
     val launcher = rememberLauncherForActivityResult(
@@ -101,7 +157,6 @@ fun handleSignInResult(
                 }
             }
     } catch (e: ApiException) {
-        // Log or handle Google Sign-In failure
         Log.e("LoginScreen", "Google Sign-In failed", e)
     }
 }
@@ -109,7 +164,7 @@ fun handleSignInResult(
 
 fun createGoogleSignInClient(context: Context): GoogleSignInClient {
     val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-        .requestIdToken("your-oauth-id.apps.googleusercontent.com")
+        .requestIdToken("your-token-id.apps.googleusercontent.com")
         .requestEmail()
         .build()
     return GoogleSignIn.getClient(context, gso)
